@@ -1,4 +1,4 @@
-from allure import ReportBuilder
+from allure.allure import ReportBuilder
 
 
 def before_all(context):
