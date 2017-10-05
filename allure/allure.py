@@ -1,5 +1,6 @@
-from time import time
 import os, shutil
+
+from time import time
 from uuid import uuid4
 from lxml import etree
 
@@ -10,6 +11,8 @@ def get_time():
 
 class ReportBuilder(object):
     current_feature = ""
+    scenario_steps = []
+    background = ""
 
     def __init__(self, suite_name):
         self._create_test_suite(suite_name)
@@ -28,15 +31,16 @@ class ReportBuilder(object):
         etree.SubElement(self.suite, "labels")
         self._test_cases = etree.SubElement(self.suite, "test-cases")
 
-    def before_scenario(self, scenario_name):
+    def before_scenario(self, scenario):
         """Create scenario
 
         :param scenario_name: scenario name
         """
         self._test_case = etree.SubElement(self._test_cases, "test-case", attrib={"start": get_time()})
         name = etree.SubElement(self._test_case, "name")
-        etree.SubElement(self._test_case, "attachments")
+        scenario_name = scenario.name
         name.text = scenario_name
+        etree.SubElement(self._test_case, "attachments")
         labels = etree.SubElement(self._test_case, "labels")
         etree.SubElement(labels, "label", attrib={"name": "feature", "value": self.current_feature})
         etree.SubElement(labels, "label", attrib={"name": "story", "value": scenario_name})
@@ -45,37 +49,90 @@ class ReportBuilder(object):
         etree.SubElement(labels, "label", attrib={"name": "host", "value": "autotester"})
         self._steps = etree.SubElement(self._test_case, "steps")
 
+        self.scenario_exception = None
+        self.scenario_steps = scenario.steps
+
     def after_scenario(self, status):
         """Set scenario status and end time
 
         :param status: scenario execution status
         """
-        self._test_case.attrib["status"] = status
+        try:
+            stat = status.split('.')[1]
+        except IndexError:
+            stat = 'Unknown'
+
+        if not self._test_case.attrib.get("status", None):
+            self._test_case.attrib["status"] = stat
         self._test_case.attrib["stop"] = get_time()
+
+        if self.scenario_exception:
+            scen_failure = etree.SubElement(self._test_case, "failure")
+            scen_failure_msg = etree.SubElement(scen_failure, "message")
+            format_exception = str(type(self.scenario_exception)).split(' ')[1][1:-2] + ':'
+            scen_failure_msg.text = '{} {}'.format(format_exception, self.scenario_exception)
+            scen_failure_stack_trace = etree.SubElement(scen_failure, "stack-trace")
 
     def before_step(self, step_name):
         """Create step
 
         :param step_name: step name
         """
-        self._step = etree.SubElement(self._steps, "step", attrib={"start": get_time()})
-        name = etree.SubElement(self._step, "name")
-        name.text = step_name
-        title = etree.SubElement(self._step, "title")
-        title.text = step_name
-        etree.SubElement(self._step, "attachments")
-        etree.SubElement(self._step, "steps")
+        try:
+            steps = self.background.steps + self.scenario_steps  # List of steps in feature
+        except AttributeError:
+            steps = self.scenario_steps  # List of steps in feature if there is no background
 
-    def after_step(self, status):
+        for item in steps:
+            if step_name == item.name:
+                self._step = etree.SubElement(self._steps, "step", attrib={"start": get_time()})
+                name = etree.SubElement(self._step, "name")
+                name.text = step_name
+                title = etree.SubElement(self._step, "title")
+                title.text = step_name
+                etree.SubElement(self._step, "attachments")
+                etree.SubElement(self._step, "steps")
+                break
+
+    def after_step(self, step):
         """Set step status and ena time
 
         :param status: step execution status
         """
-        self._step.attrib["stop"] = get_time()
-        self._step.attrib["status"] = status
+        try:
+            steps = self.background.steps + self.scenario_steps  # List of steps in feature
+        except AttributeError:
+            steps = self.scenario_steps  # List of steps in feature if there is no background
+        
+        for item in steps:
+            if step.name == item.name:
+                self._step.attrib["stop"] = get_time()
+                try:
+                    stat = str(step.status).split('.')[1]
+                except IndexError:
+                    stat = 'unknown'
+                self._step.attrib["status"] = stat
+
+                if step.exception:  # if step is failed
+                    self.scenario_exception = step.exception
+                    if not str(type(step.exception)) == "<class 'AssertionError'>":
+                        self._step.attrib["status"] = 'broken'
+                        self._test_case.attrib["status"] = 'broken'
+                    step_index = steps.index(step)
+                    skipped_steps = steps[step_index + 1:]
+
+                    for step in skipped_steps:
+                        skipped_step = etree.SubElement(self._steps, "step", attrib={"start": get_time()})
+                        name = etree.SubElement(skipped_step, "name")
+                        name.text = step.name
+                        title = etree.SubElement(skipped_step, "title")
+                        title.text = step.name
+                        skipped_step.attrib['status'] = "skipped"
+                break
 
     def after_all(self):
         """Write xml report in file"""
+
         self.suite.attrib["stop"] = get_time()
 
         # re-create report dir
