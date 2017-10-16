@@ -10,9 +10,7 @@ def get_time():
 
 
 class ReportBuilder(object):
-    current_feature = ""
-    scenario_steps = []
-    background = ""
+    _scenario_steps = []
 
     def __init__(self, suite_name):
         self._create_test_suite(suite_name)
@@ -34,7 +32,7 @@ class ReportBuilder(object):
     def before_scenario(self, scenario):
         """Create scenario
 
-        :param scenario_name: scenario name
+        :param scenario: scenario
         """
         self._test_case = etree.SubElement(self._test_cases, "test-case", attrib={"start": get_time()})
         name = etree.SubElement(self._test_case, "name")
@@ -50,7 +48,7 @@ class ReportBuilder(object):
         self._steps = etree.SubElement(self._test_case, "steps")
 
         self.scenario_exception = None
-        self.scenario_steps = scenario.steps
+        self._scenario_steps = scenario.steps
 
     def after_scenario(self, status):
         """Set scenario status and end time
@@ -69,8 +67,9 @@ class ReportBuilder(object):
         if self.scenario_exception:
             scen_failure = etree.SubElement(self._test_case, "failure")
             scen_failure_msg = etree.SubElement(scen_failure, "message")
-            format_exception = str(type(self.scenario_exception)).split(' ')[1][1:-2] + ':'
-            scen_failure_msg.text = '{} {}'.format(format_exception, self.scenario_exception)
+
+            exception_class = self.scenario_exception.__class__.__name__
+            scen_failure_msg.text = '{}: {}'.format(exception_class, self.scenario_exception)
             scen_failure_stack_trace = etree.SubElement(scen_failure, "stack-trace")
 
     def before_step(self, step_name):
@@ -78,10 +77,11 @@ class ReportBuilder(object):
 
         :param step_name: step name
         """
-        try:
-            steps = self.background.steps + self.scenario_steps  # List of steps in feature
-        except AttributeError:
-            steps = self.scenario_steps  # List of steps in feature if there is no background
+
+        if hasattr(self, 'background'):
+            steps = self.background.steps + self._scenario_steps  # List of steps in feature
+        else:
+            steps = self._scenario_steps
 
         for item in steps:
             if step_name == item.name:
@@ -97,12 +97,13 @@ class ReportBuilder(object):
     def after_step(self, step):
         """Set step status and ena time
 
-        :param status: step execution status
+        :param step: step
         """
-        try:
-            steps = self.background.steps + self.scenario_steps  # List of steps in feature
-        except AttributeError:
-            steps = self.scenario_steps  # List of steps in feature if there is no background
+
+        if hasattr(self, 'background'):
+            steps = self.background.steps + self._scenario_steps  # List of steps in feature
+        else:
+            steps = self._scenario_steps
         
         for item in steps:
             if step.name == item.name:
@@ -115,7 +116,8 @@ class ReportBuilder(object):
 
                 if step.exception:  # if step is failed
                     self.scenario_exception = step.exception
-                    if not str(type(step.exception)) == "<class 'AssertionError'>":
+
+                    if not step.exception.__class__.__name__ == "AssertionError":
                         self._step.attrib["status"] = 'broken'
                         self._test_case.attrib["status"] = 'broken'
                     step_index = steps.index(step)
