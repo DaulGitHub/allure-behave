@@ -12,8 +12,10 @@ def get_time():
 class ReportBuilder(object):
     _scenario_steps = []
 
-    def __init__(self, suite_name):
+    def __init__(self, suite_name, browser_type, url):
+        self.id = str(uuid4())
         self._create_test_suite(suite_name)
+        self._create_environment_xml(self.id, suite_name, browser_type, url)
 
     def _create_test_suite(self, name):
         """Create test-suite
@@ -28,6 +30,29 @@ class ReportBuilder(object):
         suite_name.text = name
         etree.SubElement(self.suite, "labels")
         self._test_cases = etree.SubElement(self.suite, "test-cases")
+
+    def _create_environment_xml(self, id, test_suit_name, browser_type, url):
+        """Create environment.xml with
+        environment information
+
+        :param browser_type: browser type,
+        :param url: host url
+        """
+        env_params = {'Browser': browser_type, 'URL': url}
+        self.environment = etree.Element('root')
+        self.environment_id = etree.SubElement(self.environment,'id')
+        self.environment_id.text = id
+        self.environment_name = etree.SubElement(self.environment, 'name')
+        self.environment_name.text = test_suit_name
+
+        for key in env_params:
+            self.parameter = etree.SubElement(self.environment, 'parameter')
+            self.parameter_name = etree.SubElement(self.parameter, 'name')
+            self.parameter_name.text = key
+            self.parameter_key = etree.SubElement(self.parameter, 'key')
+            self.parameter_key.text = key
+            self.parameter_value = etree.SubElement(self.parameter, 'value')
+            self.parameter_value.text = env_params[key]
 
     def before_scenario(self, scenario):
         """Create scenario
@@ -67,7 +92,6 @@ class ReportBuilder(object):
         if self.scenario_exception:
             scen_failure = etree.SubElement(self._test_case, "failure")
             scen_failure_msg = etree.SubElement(scen_failure, "message")
-
             exception_class = self.scenario_exception.__class__.__name__
             scen_failure_msg.text = '{}: {}'.format(exception_class, self.scenario_exception)
             scen_failure_stack_trace = etree.SubElement(scen_failure, "stack-trace")
@@ -77,8 +101,7 @@ class ReportBuilder(object):
 
         :param step_name: step name
         """
-
-        if hasattr(self, 'background'):
+        if hasattr(self, 'background.steps'):
             steps = self.background.steps + self._scenario_steps  # List of steps in feature
         else:
             steps = self._scenario_steps
@@ -100,7 +123,7 @@ class ReportBuilder(object):
         :param step: step
         """
 
-        if hasattr(self, 'background'):
+        if hasattr(self, 'background.steps'):
             steps = self.background.steps + self._scenario_steps  # List of steps in feature
         else:
             steps = self._scenario_steps
@@ -116,7 +139,6 @@ class ReportBuilder(object):
 
                 if step.exception:  # if step is failed
                     self.scenario_exception = step.exception
-
                     if not step.exception.__class__.__name__ == "AssertionError":
                         self._step.attrib["status"] = 'broken'
                         self._test_case.attrib["status"] = 'broken'
@@ -142,7 +164,13 @@ class ReportBuilder(object):
         shutil.rmtree(out_directory, True)
         if not os.path.exists(out_directory):
             os.makedirs(out_directory)
-        out_file_name = "{0}-testsuite.xml".format(str(uuid4()))
+        out_file_name = "{0}-testsuite.xml".format(self.id)
 
         with open(os.path.join(out_directory, out_file_name), "w") as out_file:
             out_file.write(etree.tostring(self.suite, pretty_print=True).decode("utf-8"))
+
+        out_environment_file_name = 'environment.xml'
+        with open(os.path.join(out_directory, out_environment_file_name), "w") as out_file:
+            out_file.write(etree.tostring(self.environment, pretty_print=True).decode("utf-8"))
+
+
