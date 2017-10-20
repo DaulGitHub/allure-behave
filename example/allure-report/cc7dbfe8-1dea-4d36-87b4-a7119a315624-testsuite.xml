@@ -1,8 +1,8 @@
-<ns0:test-suite xmlns:ns0="urn:model.allure.qatools.yandex.ru" start="1500622309262" stop="1500622318325">
+<ns0:test-suite xmlns:ns0="urn:model.allure.qatools.yandex.ru" start="1508909341717" stop="1508909342949">
   <name>Tests Dispatch system</name>
   <labels/>
   <test-cases>
-    <test-case start="1500622309301" status="passed" stop="1500622313310">
+    <test-case start="1508909341718" status="broken" stop="1508909341925">
       <name>Hello scenario3</name>
       <attachments/>
       <labels>
@@ -13,33 +13,35 @@
         <label name="host" value="autotester"/>
       </labels>
       <steps>
-        <step start="1500622309302" stop="1500622310304" status="passed">
+        <step start="1508909341718" stop="1508909341819" status="passed">
           <name>Hello step1</name>
           <title>Hello step1</title>
           <attachments/>
           <steps/>
         </step>
-        <step start="1500622310305" stop="1500622311306" status="passed">
+        <step start="1508909341820" stop="1508909341921" status="passed">
           <name>Hello step1</name>
           <title>Hello step1</title>
           <attachments/>
           <steps/>
         </step>
-        <step start="1500622311307" stop="1500622312308" status="passed">
-          <name>Hello step1</name>
-          <title>Hello step1</title>
+        <step start="1508909341922" stop="1508909341924" status="broken">
+          <name>Hello step3</name>
+          <title>Hello step3</title>
           <attachments/>
           <steps/>
         </step>
-        <step start="1500622312308" stop="1500622313310" status="passed">
+        <step start="1508909341924" status="skipped">
           <name>Hello step1</name>
           <title>Hello step1</title>
-          <attachments/>
-          <steps/>
         </step>
       </steps>
+      <failure>
+        <message>ZeroDivisionError: division by zero</message>
+        <stack-trace/>
+      </failure>
     </test-case>
-    <test-case start="1500622313311" status="failed" stop="1500622316319">
+    <test-case start="1508909341926" status="failed" stop="1508909342540">
       <name>Hello scenario1</name>
       <attachments/>
       <labels>
@@ -50,33 +52,47 @@
         <label name="host" value="autotester"/>
       </labels>
       <steps>
-        <step start="1500622313313" stop="1500622314314" status="passed">
+        <step start="1508909341928" stop="1508909342131" status="passed">
+          <name>My background step</name>
+          <title>My background step</title>
+          <attachments/>
+          <steps/>
+        </step>
+        <step start="1508909342131" stop="1508909342232" status="passed">
           <name>Hello step1</name>
           <title>Hello step1</title>
           <attachments/>
           <steps/>
         </step>
-        <step start="1500622314315" stop="1500622315316" status="passed">
+        <step start="1508909342233" stop="1508909342334" status="passed">
           <name>Hello step1</name>
           <title>Hello step1</title>
           <attachments/>
           <steps/>
         </step>
-        <step start="1500622315316" stop="1500622316318" status="passed">
-          <name>Hello step1</name>
-          <title>Hello step1</title>
+        <step start="1508909342334" stop="1508909342537" status="passed">
+          <name>Step with internal step</name>
+          <title>Step with internal step</title>
           <attachments/>
           <steps/>
         </step>
-        <step start="1500622316319" stop="1500622316319" status="failed">
+        <step start="1508909342538" stop="1508909342539" status="failed">
           <name>Hello step2</name>
           <title>Hello step2</title>
           <attachments/>
           <steps/>
         </step>
+        <step start="1508909342539" status="skipped">
+          <name>Hello step1</name>
+          <title>Hello step1</title>
+        </step>
       </steps>
+      <failure>
+        <message>AssertionError: My test Error message</message>
+        <stack-trace/>
+      </failure>
     </test-case>
-    <test-case start="1500622316320" status="passed" stop="1500622318325">
+    <test-case start="1508909342541" status="passed" stop="1508909342949">
       <name>Hello scenario2</name>
       <attachments/>
       <labels>
@@ -87,13 +103,19 @@
         <label name="host" value="autotester"/>
       </labels>
       <steps>
-        <step start="1500622316320" stop="1500622317322" status="passed">
+        <step start="1508909342543" stop="1508909342746" status="passed">
+          <name>My background step</name>
+          <title>My background step</title>
+          <attachments/>
+          <steps/>
+        </step>
+        <step start="1508909342746" stop="1508909342847" status="passed">
           <name>Hello step1</name>
           <title>Hello step1</title>
           <attachments/>
           <steps/>
         </step>
-        <step start="1500622317322" stop="1500622318324" status="passed">
+        <step start="1508909342848" stop="1508909342948" status="passed">
           <name>Hello step1</name>
           <title>Hello step1</title>
           <attachments/>

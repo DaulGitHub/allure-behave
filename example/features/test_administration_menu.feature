@@ -4,7 +4,5 @@ Feature: Tests login page
   Scenario: Hello scenario3
     When Hello step1
     When Hello step1
+    When Hello step3
     When Hello step1
-    When Hello step1
-
-

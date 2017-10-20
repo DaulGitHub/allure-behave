@@ -1,40 +1,34 @@
-from allure.allure import ReportBuilder
+from allure.allure import Report
 
 
 def before_all(context):
-    context.allure = ReportBuilder("Tests Dispatch system")
-    pass
+    browser_type = "firefox"
+    base_url = "https://mytests.ru"
+    context.allure = Report("Tests Dispatch system", browser_type, base_url)
 
 
 def before_feature(context, feature):
-    context.allure.current_feature = feature.name
-    pass
+    context.allure.before_feature(feature)
 
 
 def before_scenario(context, scenario):
-    context.allure.before_scenario(scenario.name)
-    pass
+    context.allure.before_scenario(scenario)
 
 
 def before_step(context, step):
-    context.allure.before_step(step.name)
-    pass
+    context.allure.before_step(step)
 
 
 def after_step(context, step):
-    context.allure.after_step(step.status)
-    pass
+    context.allure.after_step(step)
 
 
 def after_scenario(context, scenario):
-    context.allure.after_scenario(scenario.status)
-    pass
+    context.allure.after_scenario(scenario)
 
 
 def after_feature(context, feature):
     pass
 
-
 def after_all(context):
     context.allure.after_all()
-    pass
