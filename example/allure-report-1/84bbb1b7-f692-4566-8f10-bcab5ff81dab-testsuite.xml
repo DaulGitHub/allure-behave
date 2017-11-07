@@ -1,8 +1,8 @@
-<ns0:test-suite xmlns:ns0="urn:model.allure.qatools.yandex.ru" start="1508909341717" stop="1508909342949">
+<ns0:test-suite xmlns:ns0="urn:model.allure.qatools.yandex.ru" start="1510040399324" stop="1510040400555">
   <name>Tests Dispatch system</name>
   <labels/>
   <test-cases>
-    <test-case start="1508909341718" status="broken" stop="1508909341925">
+    <test-case start="1510040399325" status="broken" stop="1510040399532">
       <name>Hello scenario3</name>
       <attachments/>
       <labels>
@@ -13,25 +13,25 @@
         <label name="host" value="autotester"/>
       </labels>
       <steps>
-        <step start="1508909341718" stop="1508909341819" status="passed">
+        <step start="1510040399325" stop="1510040399426" status="passed">
           <name>Hello step1</name>
           <title>Hello step1</title>
           <attachments/>
           <steps/>
         </step>
-        <step start="1508909341820" stop="1508909341921" status="passed">
+        <step start="1510040399427" stop="1510040399528" status="passed">
           <name>Hello step1</name>
           <title>Hello step1</title>
           <attachments/>
           <steps/>
         </step>
-        <step start="1508909341922" stop="1508909341924" status="broken">
+        <step start="1510040399529" stop="1510040399531" status="broken">
           <name>Hello step3</name>
           <title>Hello step3</title>
           <attachments/>
           <steps/>
         </step>
-        <step start="1508909341924" status="skipped">
+        <step start="1510040399531" status="skipped">
           <name>Hello step1</name>
           <title>Hello step1</title>
         </step>
@@ -41,7 +41,7 @@
         <stack-trace/>
       </failure>
     </test-case>
-    <test-case start="1508909341926" status="failed" stop="1508909342540">
+    <test-case start="1510040399534" status="failed" stop="1510040400147">
       <name>Hello scenario1</name>
       <attachments/>
       <labels>
@@ -52,37 +52,37 @@
         <label name="host" value="autotester"/>
       </labels>
       <steps>
-        <step start="1508909341928" stop="1508909342131" status="passed">
+        <step start="1510040399536" stop="1510040399738" status="passed">
           <name>My background step</name>
           <title>My background step</title>
           <attachments/>
           <steps/>
         </step>
-        <step start="1508909342131" stop="1508909342232" status="passed">
+        <step start="1510040399739" stop="1510040399840" status="passed">
           <name>Hello step1</name>
           <title>Hello step1</title>
           <attachments/>
           <steps/>
         </step>
-        <step start="1508909342233" stop="1508909342334" status="passed">
+        <step start="1510040399841" stop="1510040399942" status="passed">
           <name>Hello step1</name>
           <title>Hello step1</title>
           <attachments/>
           <steps/>
         </step>
-        <step start="1508909342334" stop="1508909342537" status="passed">
+        <step start="1510040399943" stop="1510040400146" status="passed">
           <name>Step with internal step</name>
           <title>Step with internal step</title>
           <attachments/>
           <steps/>
         </step>
-        <step start="1508909342538" stop="1508909342539" status="failed">
+        <step start="1510040400146" stop="1510040400146" status="failed">
           <name>Hello step2</name>
           <title>Hello step2</title>
           <attachments/>
           <steps/>
         </step>
-        <step start="1508909342539" status="skipped">
+        <step start="1510040400146" status="skipped">
           <name>Hello step1</name>
           <title>Hello step1</title>
         </step>
@@ -92,7 +92,7 @@
         <stack-trace/>
       </failure>
     </test-case>
-    <test-case start="1508909342541" status="passed" stop="1508909342949">
+    <test-case start="1510040400147" status="passed" stop="1510040400554">
       <name>Hello scenario2</name>
       <attachments/>
       <labels>
@@ -103,19 +103,19 @@
         <label name="host" value="autotester"/>
       </labels>
       <steps>
-        <step start="1508909342543" stop="1508909342746" status="passed">
+        <step start="1510040400148" stop="1510040400350" status="passed">
           <name>My background step</name>
           <title>My background step</title>
           <attachments/>
           <steps/>
         </step>
-        <step start="1508909342746" stop="1508909342847" status="passed">
+        <step start="1510040400351" stop="1510040400452" status="passed">
           <name>Hello step1</name>
           <title>Hello step1</title>
           <attachments/>
           <steps/>
         </step>
-        <step start="1508909342848" stop="1508909342948" status="passed">
+        <step start="1510040400453" stop="1510040400554" status="passed">
           <name>Hello step1</name>
           <title>Hello step1</title>
           <attachments/>

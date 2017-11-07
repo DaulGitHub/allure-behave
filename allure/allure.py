@@ -198,8 +198,8 @@ class Report(object):
             self._builder.set_step_status(step)
 
 
-    def after_all(self):
+    def after_all(self, report_dir_name):
         """Create file with report"""
-        self._builder.create_file_report("allure-report")
+        self._builder.create_file_report(report_dir_name)
 
 

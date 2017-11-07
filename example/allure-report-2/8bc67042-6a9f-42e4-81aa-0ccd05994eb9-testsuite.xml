@@ -1,0 +1,111 @@
+<ns0:test-suite xmlns:ns0="urn:model.allure.qatools.yandex.ru" start="1510040943709" stop="1510040945132">
+  <name>Tests Dispatch system</name>
+  <labels/>
+  <test-cases>
+    <test-case start="1510040943710" status="passed" stop="1510040944014">
+      <name>Hello scenario3</name>
+      <attachments/>
+      <labels>
+        <label name="feature" value="Tests login page"/>
+        <label name="story" value="Hello scenario3"/>
+        <label name="severity" value="normal"/>
+        <label name="thread" value="13110-MainThread"/>
+        <label name="host" value="autotester"/>
+      </labels>
+      <steps>
+        <step start="1510040943710" stop="1510040943811" status="passed">
+          <name>Hello step1</name>
+          <title>Hello step1</title>
+          <attachments/>
+          <steps/>
+        </step>
+        <step start="1510040943811" stop="1510040943912" status="passed">
+          <name>Hello step1</name>
+          <title>Hello step1</title>
+          <attachments/>
+          <steps/>
+        </step>
+        <step start="1510040943913" stop="1510040944014" status="passed">
+          <name>Hello step1</name>
+          <title>Hello step1</title>
+          <attachments/>
+          <steps/>
+        </step>
+      </steps>
+    </test-case>
+    <test-case start="1510040944014" status="passed" stop="1510040944725">
+      <name>Hello scenario1</name>
+      <attachments/>
+      <labels>
+        <label name="feature" value="Tests administration menu"/>
+        <label name="story" value="Hello scenario1"/>
+        <label name="severity" value="normal"/>
+        <label name="thread" value="13110-MainThread"/>
+        <label name="host" value="autotester"/>
+      </labels>
+      <steps>
+        <step start="1510040944015" stop="1510040944217" status="passed">
+          <name>My background step</name>
+          <title>My background step</title>
+          <attachments/>
+          <steps/>
+        </step>
+        <step start="1510040944218" stop="1510040944319" status="passed">
+          <name>Hello step1</name>
+          <title>Hello step1</title>
+          <attachments/>
+          <steps/>
+        </step>
+        <step start="1510040944320" stop="1510040944421" status="passed">
+          <name>Hello step1</name>
+          <title>Hello step1</title>
+          <attachments/>
+          <steps/>
+        </step>
+        <step start="1510040944421" stop="1510040944623" status="passed">
+          <name>Step with internal step</name>
+          <title>Step with internal step</title>
+          <attachments/>
+          <steps/>
+        </step>
+        <step start="1510040944624" stop="1510040944724" status="passed">
+          <name>Hello step1</name>
+          <title>Hello step1</title>
+          <attachments/>
+          <steps/>
+        </step>
+      </steps>
+    </test-case>
+    <test-case start="1510040944725" status="passed" stop="1510040945131">
+      <name>Hello scenario2</name>
+      <attachments/>
+      <labels>
+        <label name="feature" value="Tests administration menu"/>
+        <label name="story" value="Hello scenario2"/>
+        <label name="severity" value="normal"/>
+        <label name="thread" value="13110-MainThread"/>
+        <label name="host" value="autotester"/>
+      </labels>
+      <steps>
+        <step start="1510040944726" stop="1510040944928" status="passed">
+          <name>My background step</name>
+          <title>My background step</title>
+          <attachments/>
+          <steps/>
+        </step>
+        <step start="1510040944929" stop="1510040945030" status="passed">
+          <name>Hello step1</name>
+          <title>Hello step1</title>
+          <attachments/>
+          <steps/>
+        </step>
+        <step start="1510040945030" stop="1510040945131" status="passed">
+          <name>Hello step1</name>
+          <title>Hello step1</title>
+          <attachments/>
+          <steps/>
+        </step>
+      </steps>
+    </test-case>
+  </test-cases>
+</ns0:test-suite>
