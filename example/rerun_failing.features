@@ -1,0 +1,4 @@
+# -- RERUN: 2 failing scenarios during last test run.
+features/test_administration_menu.feature:4
+features/test_login_page.feature:7
+

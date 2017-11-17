@@ -1,14 +1,14 @@
 <root>
-  <id>8bc67042-6a9f-42e4-81aa-0ccd05994eb9</id>
+  <id>4fa4a5ef-6f64-4348-b7b6-9e494aab6ce3</id>
   <name>Tests Dispatch system</name>
-  <parameter>
-    <name>URL</name>
-    <key>URL</key>
-    <value>https://mytests.ru</value>
-  </parameter>
   <parameter>
     <name>Browser</name>
     <key>Browser</key>
     <value>firefox</value>
+  </parameter>
+  <parameter>
+    <name>URL</name>
+    <key>URL</key>
+    <value>https://mytests.ru</value>
   </parameter>
 </root>

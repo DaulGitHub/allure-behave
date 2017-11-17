@@ -11,11 +11,12 @@ def get_time():
 class XMLBuilder(object):
     """XML report files builder"""
 
-    def __init__(self, suite_name, browser_type, url):
+    def __init__(self, out_directory_name, suite_name, browser_type, url):
         self._id = str(uuid4())
         self._create_test_suite(suite_name)
         self._create_environment_xml(suite_name, browser_type, url)
         self._scenario_exception = None
+        self._report_dir_name = out_directory_name
 
     def _create_test_suite(self, name):
         """Create test-suite
@@ -94,10 +95,26 @@ class XMLBuilder(object):
         name.text = step_name
         title = etree.SubElement(self._step, "title")
         title.text = step_name
-        etree.SubElement(self._step, "attachments")
         etree.SubElement(self._step, "steps")
 
-    def set_step_status(self, step):
+    def _set_attachments(self, attachments):
+        """Add attachments to step"""
+        if attachments is not None:
+            attachments_nod = etree.SubElement(self._step, "attachments")
+            for attachment in attachments:
+                if attachment.get("title"):
+                    attach_title = attachment["title"]
+                else:
+                    raise KeyError("Required key 'title' in attachments items")
+                if attachment.get("filename"):
+                    attach_file_name = attachment["filename"]
+                    attach_file_type = attach_file_name.split(".")[1]
+                else:
+                    raise KeyError("Required key 'filename' in attachments items")
+                attachment = etree.SubElement(attachments_nod, "attachment",
+                                              attrib={"title": attach_title, "source": attach_file_name, "type": attach_file_type})
+
+    def set_step_status(self, step, attachments=None):
         steps = self._background_steps + self._scenario_steps  # List of steps in feature
 
         self._step.attrib["stop"] = get_time()
@@ -106,6 +123,8 @@ class XMLBuilder(object):
         except IndexError:
             stat = 'unknown'
         self._step.attrib["status"] = stat
+
+        self._set_attachments(attachments)
 
         if step.exception:  # if step is failed
             self._scenario_exception = step.exception
@@ -123,21 +142,17 @@ class XMLBuilder(object):
                 title.text = step.name
                 skipped_step.attrib['status'] = "skipped"
 
-    def create_file_report(self, out_directory):
+    def create_file_report(self):
         """Write xml report in file"""
         self.suite.attrib["stop"] = get_time()
 
-        # re-create report dir
-        shutil.rmtree(out_directory, True)
-        if not os.path.exists(out_directory):
-            os.makedirs(out_directory)
         out_file_name = "{0}-testsuite.xml".format(self._id)
 
-        with open(os.path.join(out_directory, out_file_name), "w") as out_file:
+        with open(os.path.join(self._report_dir_name, out_file_name), "w") as out_file:
             out_file.write(etree.tostring(self.suite, pretty_print=True).decode("utf-8"))
 
         out_environment_file_name = 'environment.xml'
-        with open(os.path.join(out_directory, out_environment_file_name), "w") as out_file:
+        with open(os.path.join(self._report_dir_name, out_environment_file_name), "w") as out_file:
             out_file.write(etree.tostring(self.environment, pretty_print=True).decode("utf-8"))
 
     def set_feature_name(self, name):
@@ -150,9 +165,14 @@ class XMLBuilder(object):
 class Report(object):
     """Report builder"""
 
-    def __init__(self, report_name, browser_type, url):
-        self._before_step_flag = True
-        self._builder = XMLBuilder(report_name, browser_type, url)
+    def __init__(self, out_directory_name, report_name, browser_type, url):
+        # re-create report dir
+        self.report_dir_name = out_directory_name
+        shutil.rmtree(out_directory_name, True)
+        if not os.path.exists(out_directory_name):
+            os.makedirs(out_directory_name)
+
+        self._builder = XMLBuilder(out_directory_name, report_name, browser_type, url)
 
     def before_feature(self, feature):
         """Set feature
@@ -188,18 +208,16 @@ class Report(object):
         if step.location.filename != "<string>":
             self._builder.create_step(step.name)
 
-    def after_step(self, step):
+    def after_step(self, step, attachments=None):
         """After step
 
         :param step: step structure from behave
         """
         # don`t show internal steps
         if step.location.filename != "<string>":
-            self._builder.set_step_status(step)
+            self._builder.set_step_status(step, attachments)
 
 
-    def after_all(self, report_dir_name):
+    def after_all(self):
         """Create file with report"""
-        self._builder.create_file_report(report_dir_name)
-
-
+        self._builder.create_file_report()
