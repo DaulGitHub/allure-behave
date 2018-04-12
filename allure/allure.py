@@ -177,10 +177,10 @@ class Report(object):
 
         # re-create report dir
         if re_create:
-            self.report_dir_name = out_directory_name
             shutil.rmtree(out_directory_name, True)
-            if not os.path.exists(out_directory_name):
-                os.makedirs(out_directory_name)
+
+        if not os.path.exists(out_directory_name):
+            os.makedirs(out_directory_name)
 
         self._builder = XMLBuilder(out_directory_name, report_name, browser_type, url)
 
