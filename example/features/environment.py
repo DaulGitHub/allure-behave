@@ -8,7 +8,7 @@ def before_all(context):
     base_url = "https://mytests.ru"
 
     report_dir_name = "allure-report"
-    context.allure = Report(report_dir_name, "Tests Dispatch system", browser_type, base_url)
+    context.allure = Report(report_dir_name, "Tests Dispatch system", browser_type, base_url, re_create=True)
 
     container_dir = "temp_files"
     attachments = get_attachments()

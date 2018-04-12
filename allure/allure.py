@@ -165,12 +165,22 @@ class XMLBuilder(object):
 class Report(object):
     """Report builder"""
 
-    def __init__(self, out_directory_name, report_name, browser_type, url):
+    def __init__(self, out_directory_name, report_name, browser_type, url, re_create=True):
+        """Args:
+            out_directory_name (str): report directory
+            report_name (str): name displayed in report
+            browser_type (str): browser type name
+            url (str): url test site
+            re_create (bool): if True then re-create report folder, else add new unique name
+            report files in the report folder
+        """
+
         # re-create report dir
-        self.report_dir_name = out_directory_name
-        shutil.rmtree(out_directory_name, True)
-        if not os.path.exists(out_directory_name):
-            os.makedirs(out_directory_name)
+        if re_create:
+            self.report_dir_name = out_directory_name
+            shutil.rmtree(out_directory_name, True)
+            if not os.path.exists(out_directory_name):
+                os.makedirs(out_directory_name)
 
         self._builder = XMLBuilder(out_directory_name, report_name, browser_type, url)
 
