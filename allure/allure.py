@@ -175,6 +175,7 @@ class Report(object):
             report files in the report folder
         """
 
+        self.report_dir_name = out_directory_name
         # re-create report dir
         if re_create:
             shutil.rmtree(out_directory_name, True)
