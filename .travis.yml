@@ -1,6 +1,8 @@
 dist: xenial
 sudo: required
 language: python
+python:
+  - "3.5.3"
 install:
   - pip install -r requirements.txt
 script:
