@@ -1,8 +1,10 @@
-dist: trusty
+dist: xenial
 sudo: required
-language: bash
-before_install:
-- curl https://raw.githubusercontent.com/express42/otus-homeworks/2018-05/run.sh | bash
+language: python
+install:
+  - pip install -r requirements.txt
+script:
+  - python -m unittest
 notifications:
   slack:
     rooms:
