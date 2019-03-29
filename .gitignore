@@ -1,0 +1,13 @@
+# Created by .ignore support plugin (hsz.mobi)
+/env
+/output
+/allure-report
+/build
+/__pycache__
+*.egg-info
+*.pyc
+temp.py
+/dist
+/example/example-env
+/example/allure-report
+

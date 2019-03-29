@@ -1,0 +1,13 @@
+dist: xenial
+sudo: required
+language: python
+python:
+  - "3.5.3"
+install:
+  - pip install -r requirements.txt
+script:
+  - python -m unittest
+notifications:
+  slack:
+    rooms:
+      secure: xi497bSNTSr/a+DE9gL0QoscDmFuAsLSM0sk9RA5as6D8SM0oIFSaXGak1Bqozqo/j7EmMDkEAG0ujpIXzjaGvNoQWryMk9RCPInlkl5yw3HkmurDk7Q5dBrULItbS0rwelwYxU3I8k/4BAOi4rE7HwEyx5UkYwt01nrpdHIFK6e/ZNNWvzlAgdAJvnRg/ilwXyCHrpqbfZk1CeAJpcgtVzPbDIdZgeH87ssiNfSuqihjtPTo/bpSz8Z0lW3K6gUkkH4dwCT3Ol8VWiVVifzaFDZF0bAzG9rpU8kMjjV+LV1PIz+kTv3aDQK6DDofvGhfxvL0QN9zV+nW8tBw/8QCGuI0XcgPm54R9Y9b61/fTpXkTmkAUooLBzFSpf3WDqNgNIABxUV52aeV9h6XQu0MzRXBqiaAWW625YwKhGCm9H2jUzqbJ4Hol8dgVvFny3r4visnEQ0S4hmMngz/QjrzzD2oXXjpRQmfVobvEyfYRyN19Rm++J+tiqnNRUrQhZZIHPLbgQ7pSF0kFz6Hqv8qBdY/5j/0o8E5TYnxL+EfBETd/JSNEuOmBIAhpUTorczClPYVkw9njmOLLTRcNOQUDmNcU+8MtvvXw3JHb75tJvQYBc/r5Lm1a8L6QNQf5D01Ejcqkg43QcLRB/Uy3a355GpjEXySj9JdHAMGM45q0M=
